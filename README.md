@@ -30,3 +30,10 @@ The trade-off made here is simplicity over absolute optimality: a Fenwick tree h
 ## Edge cases
 
 The constructor validates that the input edges form a tree on exactly n vertices. If the edge count is not n-1, or the graph is disconnected, or a vertex index is out of range, or a self-loop is present, a `ValueError` is raised. Vertex values are integers, and all operations work correctly with negative values. The maximum query on a path with only negative values returns the largest (closest to zero) value, not some sentinel.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
